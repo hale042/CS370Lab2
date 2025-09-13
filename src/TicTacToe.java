@@ -110,11 +110,11 @@ public class TicTacToe {
         }
     }
 
-    /*
     private void printSymbol(int column, char value){
-        //
+        // maybe it's meant to be used to print the column of the board? ¯\_(o_o)_/¯
+        // System.out.println("\n" + value + "\n");
+        System.out.println(value);
     }
-    */
 
     private boolean validMove(int row, int col) {
         if (row < 0 || row >= BOARDSIZE || col < 0 || col >= BOARDSIZE) return false;
