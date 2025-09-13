@@ -1,12 +1,16 @@
+import java.util.Scanner;
+
 public class TicTacToe {
     private final int BOARDSIZE = 3;
     private enum Status {WIN, DRAW, CONTINUE}
-    private char[][] board;
-    private boolean firstPlayer;
-    private boolean gameOver;
+    private char[][] board = new char[BOARDSIZE][BOARDSIZE];
+    private boolean firstPlayer = true;
+    private boolean gameOver = false;
 
     public void play(){
         Scanner scanner = new Scanner(System.in);
+        board = new char[][]{{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+
         printBoard();
 
         while (!gameOver) {
@@ -14,15 +18,34 @@ public class TicTacToe {
             printStatus(firstPlayer ? 1 : 2);
 
             while (true) {
-                System.out.print("Enter row (0-2) and column (0-2): ");
-                row = scanner.nextInt();
-                col = scanner.nextInt();
+                while(true) {
+                    System.out.print("Enter row (0-2): ");
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Please enter an integer");
+                        scanner.nextLine();
+                        continue;
+                    }
+                    row = scanner.nextInt();
+                    break;
+                }
+                while(true) {
+                    System.out.print("Enter column (0-2): ");
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Please enter an integer");
+                        scanner.nextLine();
+                        continue;
+                    }
+                    col = scanner.nextInt();
+                    break;
+                }
+
+
                 if (validMove(row, col)) break;
                 System.out.println("Invalid move, try again.");
             }
 
             char symbol = firstPlayer ? 'X' : 'O';
-            printSymbol(row, col, symbol);
+            board[row][col] = symbol;
             printBoard();
 
             Status status = gameStatus();
@@ -74,7 +97,7 @@ public class TicTacToe {
         }
         return Status.DRAW;
     }
-    
+
     public void printBoard(){
         System.out.println("-------------");
         for (int i = 0; i < BOARDSIZE; i++) {
@@ -86,17 +109,16 @@ public class TicTacToe {
             System.out.println("-------------");
         }
     }
+
+    /*
     private void printSymbol(int column, char value){
-        board[row][col] = value;
+        //
     }
+    */
+
     private boolean validMove(int row, int col) {
         if (row < 0 || row >= BOARDSIZE || col < 0 || col >= BOARDSIZE) return false;
         return board[row][col] == ' ';
     }
 
-    // --- Main to run game ---
-    public static void main(String[] args) {
-        TicTacToe game = new TicTacToe();
-        game.play();
-    }
 }
